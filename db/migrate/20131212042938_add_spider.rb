@@ -1,7 +1,7 @@
 class AddSpider < ActiveRecord::Migration
   def up
     create_table :spiders do |t|
-      t.integer  :page
+      t.integer  :number
       t.string   :letter
       t.boolean :enabled
     end

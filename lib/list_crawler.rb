@@ -1,3 +1,4 @@
+require_dependency 'agent_scraper'
 class ListCrawler
 
   HTTP_PREFIX = 'http://'
@@ -14,7 +15,7 @@ class ListCrawler
     @mechanize.user_agent = [UBUNTU_USER_AGENT, MAC_USER_AGENT, MAC_USER_AGENT2].sample
     @sleep_time = 7
     #@mechanize.cookie_jar << Mechanize::Cookie.new('conf_arc', '1', :domain => self.class.domain, :path => '/')
-    rnd = Random.new
+    @rnd = Random.new
     @settings = YAML::load(File.open(Rails.root.join("config","spider.yml")))
   end
 
@@ -32,18 +33,18 @@ class ListCrawler
 
 
   def get_page(letter, number)
-    url = @settings[:url] + "#{letter}/#{page}"
+    url = @settings['url'] + "#{letter}/#{number}"
     page = @mechanize.get url
     page
   end
 
   def scrap_agent(link)
-    site_id = link.first.attributes['href'].value.match(/\/agent\/(.*)/)[1]
-    if no_agent_in_db
+    site_id = link.attributes['href'].match(/\/agent\/(.*)/)[1]
+    if no_agent_in_db(site_id)
       agent_page = link.click
       agent_attributes = AgentScraper.scrap(agent_page)
       Agent.create(agent_attributes)
-      sleep rnd.rand 3..15
+      sleep @rnd.rand 3..15
     end
   end
 
@@ -52,6 +53,7 @@ class ListCrawler
     page = get_page(letter, number)
     links = page.search('.alisting_info .info1 .infotitle a')
     links.each do |link|
+      link = Mechanize::Page::Link.new(link, @mechanize, page)
       scrap_agent link
     end
 

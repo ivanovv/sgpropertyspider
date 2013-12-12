@@ -1,10 +1,9 @@
 class AddAgents < ActiveRecord::Migration
-  def change
-  end
 
   def up
     create_table :agents do |t|
       t.string :site_id
+      t.string :name
       t.string :phone
       t.string :company
       t.string :position

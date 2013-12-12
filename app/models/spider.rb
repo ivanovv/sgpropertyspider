@@ -1,4 +1,5 @@
-class Spider
+require_dependency 'list_crawler'
+class Spider < ActiveRecord::Base
   def crawl
     return unless enabled?
     crawler = ListCrawler.new

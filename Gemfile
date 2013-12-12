@@ -21,6 +21,7 @@ gem 'whenever', :github => 'javan/whenever'
 
 
 group :development do
+  gem 'sqlite3'
   gem 'capistrano', '~> 3.0', require: false
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
