@@ -6,21 +6,18 @@ class ListCrawler
   UBUNTU_USER_AGENT = 'Mozilla/5.0 (Ubuntu; X11; Linux x86_64; rv:8.0) Gecko/20100101 Firefox/8.0'
   MAC_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/534.52.7 (KHTML, like Gecko) Version/5.1.2 Safari/534.52.7'
   MAC_USER_AGENT2 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17'
+  MAC_USER_AGENT3 = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9) AppleWebKit/537.71 (KHTML, like Gecko) Version/7.0 Safari/537.71'
 
 
   attr_accessor :sleep_time, :mechanize, :scraper
 
   def initialize
     @mechanize = Mechanize.new
-    @mechanize.user_agent = [UBUNTU_USER_AGENT, MAC_USER_AGENT, MAC_USER_AGENT2].sample
+    @mechanize.user_agent = [UBUNTU_USER_AGENT, MAC_USER_AGENT, MAC_USER_AGENT2, MAC_USER_AGENT3].sample
     @sleep_time = 7
     #@mechanize.cookie_jar << Mechanize::Cookie.new('conf_arc', '1', :domain => self.class.domain, :path => '/')
     @rnd = Random.new
     @settings = YAML::load(File.open(Rails.root.join("config","spider.yml")))
-  end
-
-  def scraper(url)
-    @scraper ||= AgentScraper.new
   end
 
   def no_agent_in_db(site_id)

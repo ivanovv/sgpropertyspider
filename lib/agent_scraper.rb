@@ -25,7 +25,7 @@ class AgentScraper
         :cea_license_number => license_num,
         :cea_reg_number => reg_num,
         :site_id => site_id,
-        :email => emails
+        :email => emails.empty? ? nil : emails
     }
   end
 
