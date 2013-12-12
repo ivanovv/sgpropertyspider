@@ -1,6 +1,6 @@
-set :output, "/home/deploy/apps/sgpropertyspider/shared/logs/cron.log"
+set :output, '/home/deploy/apps/sgpropertyspider/shared/log/cron.log'
 
 every 2.minutes do
-  rake "crawl"
+  rake 'crawl'
 end
 
