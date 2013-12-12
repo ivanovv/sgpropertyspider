@@ -24,7 +24,8 @@ class AgentScraper
         :position => position,
         :cea_license_number => license_num,
         :cea_reg_number => reg_num,
-        :site_id => site_id
+        :site_id => site_id,
+        :email => emails
     }
   end
 
