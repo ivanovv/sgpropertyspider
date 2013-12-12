@@ -60,7 +60,7 @@ class ListCrawler
     if links.count == 10
       [letter, number+1]
     else
-      [letter, 1]
+      [letter.next, 1]
     end
   end
 

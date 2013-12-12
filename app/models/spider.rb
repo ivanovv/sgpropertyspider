@@ -4,8 +4,9 @@ class Spider < ActiveRecord::Base
     return unless enabled?
     crawler = ListCrawler.new
     next_letter, next_number = crawler.parse_page(letter, number)
-    letter = next_letter
-    number = next_number
+    self.letter = next_letter
+    self.number = next_number
+    self.enabled = false if next_letter == 'AA'
     save
   end
 end
