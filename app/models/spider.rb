@@ -9,7 +9,7 @@ class Spider < ActiveRecord::Base
 
       if next_letter != self.letter
         begin
-          Noticator.next_letter(next_letter)
+          Notificator.next_letter(next_letter)
         rescue => e
           logger.error e.message
         end
@@ -30,7 +30,7 @@ class Spider < ActiveRecord::Base
       logger.error error_message
 
       begin
-        Noticator.error(error_message)
+        Notificator.error(error_message)
       rescue => e
         logger.error e.message
       end
