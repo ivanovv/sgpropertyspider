@@ -6,17 +6,35 @@ class Spider < ActiveRecord::Base
     begin
       logger.info "Start parsing letter #{letter} page number #{number}"
       next_letter, next_number = crawler.parse_page(letter, number)
+
+      if next_letter != self.letter
+        begin
+          Noticator.next_letter(next_letter)
+        rescue => e
+          logger.error e.message
+        end
+      end
+
       self.letter = next_letter
       self.number = next_number
+
+      next_message = "Spider updated:  next letter #{self.letter}, next page number #{self.number}"
       if next_letter == 'AA'
         self.enabled = false
-        logger.info "Spider updated:  next letter #{self.letter}, next page number #{self.number}, enabled: #{self.enabled}"
+        next_message =  "Spider updated:  next letter #{self.letter}, next page number #{self.number}, enabled: #{self.enabled}"
       end
-      logger.info "Spider updated:  next letter #{self.letter}, next page number #{self.number}"
+      logger.info next_message
       save
     rescue => e
-      logger.error "Got an error while parsing letter #{letter} page number #{number}"
-      logger.error "The error is #{e.message}"
+      error_message ="Got an error while parsing letter #{letter} page number #{number}\nThe error is #{e.message}"
+      logger.error error_message
+
+      begin
+        Noticator.error(error_message)
+      rescue => e
+        logger.error e.message
+      end
+
       raise e
     end
   end

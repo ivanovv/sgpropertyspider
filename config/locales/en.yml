@@ -21,3 +21,8 @@
 
 en:
   hello: "Hello world"
+  notificator:
+    error:
+      subject: Spider error
+    next_letter:
+      subject: Next letter

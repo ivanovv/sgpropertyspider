@@ -13,10 +13,23 @@ set :deploy_to, '/home/deploy/apps/sgpropertyspider/'
 
 set :log_level, :debug
 
-set :linked_files, %w{config/database.yml config/spider.yml config/initializers/secret_token.rb}
+set :linked_files, %w{config/database.yml config/spider.yml config/initializers/secret_token.rb config/email.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
+
+set :unicorn_conf,  "#{release_path}/config/unicorn.rb"
+set :unicorn_pid,  "#{release_path}/tmp/pids/unicorn.pid"
+set :unicorn_start_cmd, "(cd #{release_path}; bundle exec unicorn_rails -Dc #{fetch(:unicorn_conf)} -E production)"
+
 namespace :deploy do
+  desc "Symlink Nginx config (requires sudo)"
+  task :symlink_nginx_config do
+    on roles: :app do
+      within release_path do
+        execute :ln, "-nfs config/nginx /etc/nginx/sites-enabled/#{application}"
+      end
+    end
+  end
 
   desc 'Restart application'
   task :restart do
@@ -26,10 +39,16 @@ namespace :deploy do
     end
   end
 
-  desc 'Get the app log'
-  task :get_log do
+  desc 'Get the cron log'
+  task :get_cron_log do
     on roles(:app), in: :sequence, wait: 5 do
       execute :tail, "-n200 #{release_path.join('log/cron.log')}"
+    end
+  end
+  desc 'Get the app log'
+  task :get_app_log do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :tail, "-n100 #{release_path.join('log/production.log')}"
     end
   end
 
