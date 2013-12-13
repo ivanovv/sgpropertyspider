@@ -26,6 +26,13 @@ namespace :deploy do
     end
   end
 
+  desc 'Get the app log'
+  task :get_log do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :tail, "-n200 #{release_path.join('log/cron.log')}"
+    end
+  end
+
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
