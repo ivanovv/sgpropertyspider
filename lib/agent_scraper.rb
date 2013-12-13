@@ -6,9 +6,9 @@ class AgentScraper
 
   def scrap(page)
     agent_summary = page.at('.agent_summary')
-    name = agent_summary.at('.summarytitle a').text
+    name = page.at('#breadcrumb_title').text
     company = agent_summary.at('.summary1 .greytext').text rescue nil
-    phone = agent_summary.at('span.orangebold').text
+    phone = agent_summary.at('span.orangebold').text rescue nil
     fax = agent_summary.at('.summary2 span.font14 b').text rescue nil
     position = agent_summary.at('.summary1 .font14.top5 b').children.first.text rescue nil
     lic_numbers = agent_summary.css('.summary2 .top15 a')
