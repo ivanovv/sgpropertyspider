@@ -31,8 +31,7 @@ class ListCrawler
 
   def get_page(letter, number)
     url = @settings['url'] + "#{letter}/#{number}"
-    page = @mechanize.get url
-    page
+    @mechanize.get url
   end
 
   def scrap_agent(link)
@@ -41,7 +40,6 @@ class ListCrawler
       agent_page = link.click
       agent_attributes = AgentScraper.scrap(agent_page)
       Agent.create(agent_attributes)
-      sleep @rnd.rand 3..15
     end
   end
 
@@ -50,8 +48,9 @@ class ListCrawler
     page = get_page(letter, number)
     links = page.search('.alisting_info .info1 .infotitle a')
     links.each do |link|
-      link = Mechanize::Page::Link.new(link, @mechanize, page)
-      scrap_agent link
+      agent_link = Mechanize::Page::Link.new(link, @mechanize, page)
+      scrap_agent agent_link
+      sleep @rnd.rand 3..10
     end
 
     if links.count == 10
