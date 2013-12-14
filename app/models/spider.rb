@@ -31,8 +31,8 @@ class Spider < ActiveRecord::Base
 
       begin
         Notificator.error(error_message).deliver
-      rescue => e
-        logger.error e.message
+      rescue => e2
+        logger.error e2.message
       end
 
       raise e
