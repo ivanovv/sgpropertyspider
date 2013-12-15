@@ -17,40 +17,54 @@ set :linked_files, %w{config/database.yml config/spider.yml config/initializers/
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 
-set :unicorn_conf,  "#{release_path}/config/unicorn.rb"
-set :unicorn_pid,  "#{release_path}/tmp/pids/unicorn.pid"
+set :unicorn_conf, "#{release_path}/config/unicorn.rb"
+set :unicorn_pid, "#{release_path}/tmp/pids/unicorn.pid"
 set :unicorn_start_cmd, "(cd #{release_path}; bundle exec unicorn_rails -Dc #{fetch(:unicorn_conf)} -E production)"
 
 namespace :deploy do
-  desc "Symlink Nginx config (requires sudo)"
-  task :symlink_nginx_config do
-    on roles: :app do
-      within release_path do
-        execute :ln, "-nfs config/nginx /etc/nginx/sites-enabled/#{application}"
+
+  namespace :nginx do
+    desc "Reload nginx configuration"
+    task :reload do
+      on roles :web do
+        sudo "/etc/init.d/nginx reload"
+      end
+    end
+
+    desc "Symlink Nginx config (requires sudo)"
+    task :symlink_config do
+      on roles: :app do
+        sudo "rm /etc/nginx/sites-available/#{application}"
+        within release_path do
+          sudo "mv /config/nginx /etc/nginx/sites-available/#{application}"
+        end
+        sudo "ln -fs /etc/nginx/sites-available/#{application} /etc/nginx/sites-enabled/#{application}"
       end
     end
   end
 
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
+      execute :touch, release_path.join('tmp/restart.txt')
     end
   end
 
-  desc 'Get the cron log'
-  task :get_cron_log do
+  desc 'Start application'
+  task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute :tail, "-n200 #{release_path.join('log/cron.log')}"
+      execute fetch(:unicorn_start_cmd)
     end
   end
-  desc 'Get the app log'
-  task :get_app_log do
+
+  desc 'Stop application'
+  task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute :tail, "-n100 #{release_path.join('log/production.log')}"
+      execute :touch, release_path.join('tmp/restart.txt')
     end
   end
+
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -63,4 +77,24 @@ namespace :deploy do
 
   after :finishing, 'deploy:cleanup'
 
+  after 'deploy:updated', 'deploy::nginx:symlink_config'
+  after 'deploy:updated', 'deploy::nginx:reload'
+
 end
+
+desc 'Get the cron log'
+task :get_cron_log do
+  on roles(:app), in: :sequence, wait: 5 do
+    log = capture "tail -n200 #{release_path.join('log/cron.log')}"
+    info log
+  end
+end
+
+desc 'Get the app log'
+task :get_app_log do
+  on roles(:app), in: :sequence, wait: 5 do
+    log = capture "tail -n100 #{release_path.join('log/production.log')}"
+    info log
+  end
+end
+
