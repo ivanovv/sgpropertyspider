@@ -3,7 +3,7 @@ upstream unicorn_sgpropertyspider {
 }
 
 server {
-  listen 80;
+  listen 80 default_server;
 
   server_name pgsgspider.servehttp.com;
   root /home/deploy/apps/sgpropertyspider/current/public;
@@ -65,5 +65,11 @@ server {
 
   location ~ \.(php|html)$ {
     return 405;
+  }
+
+  location = agents.csv {
+      internal;
+      add_header Content-disposition "attachment; filename=$1";
+      add_header Content-Type application/vnd.ms-excel;
   }
 }

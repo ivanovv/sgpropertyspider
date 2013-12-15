@@ -17,7 +17,7 @@ set :linked_files, %w{config/database.yml config/spider.yml config/initializers/
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 
-set :unicorn_conf, "#{release_path}/config/unicorn.rb"
+set :unicorn_conf, "config/unicorn.rb"
 set :unicorn_pid, "#{release_path}/tmp/pids/unicorn.pid"
 set :unicorn_start_cmd, "(cd #{release_path}; bundle exec unicorn_rails -Dc #{fetch(:unicorn_conf)} -E production)"
 
@@ -27,7 +27,7 @@ namespace :deploy do
     desc "Reload nginx configuration"
     task :reload do
       on roles :web do
-        sudo "/etc/init.d/nginx reload"
+        execute "sudo /etc/init.d/nginx reload | echo 0"
       end
     end
 
