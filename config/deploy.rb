@@ -33,12 +33,14 @@ namespace :deploy do
 
     desc "Symlink Nginx config (requires sudo)"
     task :symlink_config do
-      on roles: :app do
-        sudo "rm /etc/nginx/sites-available/#{application}"
-        within release_path do
-          sudo "mv /config/nginx /etc/nginx/sites-available/#{application}"
+      on roles :web do
+        if test "[-f /etc/nginx/sites-available/#{fetch(:application)}]"
+          sudo :rm, "/etc/nginx/sites-available/#{fetch(:application)}"
         end
-        sudo "ln -fs /etc/nginx/sites-available/#{application} /etc/nginx/sites-enabled/#{application}"
+        within release_path do
+          sudo :cp, "config/nginx", "/etc/nginx/sites-available/#{fetch(:application)}"
+        end
+        sudo :ln, "-fs", "/etc/nginx/sites-available/#{fetch(:application)}", "/etc/nginx/sites-enabled/#{fetch(:application)}"
       end
     end
   end
@@ -77,8 +79,8 @@ namespace :deploy do
 
   after :finishing, 'deploy:cleanup'
 
-  after 'deploy:updated', 'deploy::nginx:symlink_config'
-  after 'deploy:updated', 'deploy::nginx:reload'
+  after 'deploy:updated', 'deploy:nginx:symlink_config'
+  after 'deploy:updated', 'deploy:nginx:reload'
 
 end
 
