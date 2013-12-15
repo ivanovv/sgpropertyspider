@@ -39,6 +39,12 @@ server {
   error_page 500 502 504 /500.html;
   error_page 503 @503;
 
+  location = agents.csv {
+    internal;
+    add_header Content-disposition "attachment; filename=$1";
+    add_header Content-Type application/vnd.ms-excel;
+  }
+
   location = /50x.html {
     root html;
   }
@@ -65,11 +71,5 @@ server {
 
   location ~ \.(php|html)$ {
     return 405;
-  }
-
-  location = agents.csv {
-      internal;
-      add_header Content-disposition "attachment; filename=$1";
-      add_header Content-Type application/vnd.ms-excel;
   }
 }
