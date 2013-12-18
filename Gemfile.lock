@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/javan/whenever.git
-  revision: 76218f1b92d935690cf6ecf746381878b864b60a
+  revision: f69a35873099c670ffd223bc2d476445ec444ad9
   specs:
     whenever (0.8.4)
       activesupport (>= 2.3.4)
@@ -98,7 +98,7 @@ GEM
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.7.0)
-    nokogiri (1.6.0)
+    nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     ntlm-http (0.1.1)
     pg (0.17.0)
@@ -160,7 +160,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
-    uglifier (2.3.2)
+    uglifier (2.3.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unf (0.1.3)
