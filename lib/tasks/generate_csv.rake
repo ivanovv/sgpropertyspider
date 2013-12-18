@@ -9,14 +9,14 @@ task :generate_csv => :environment do
     #  csv << agent.to_csv_row
     #end
 
-    Agent.order(:id).take(500).each do |agent|
+    Agent.first(500).each do |agent|
       csv << agent.to_csv_row
     end
-    Agent.order(:id).skip(3000).take(500).each do |agent|
+    Agent.find_each(:start => 3000, :batch_size => 500) do |agent|
       csv << agent.to_csv_row
     end
 
-    Agent.order('id desc').take(500).each do |agent|
+    Agent.last(500).each do |agent|
       csv << agent.to_csv_row
     end
 
