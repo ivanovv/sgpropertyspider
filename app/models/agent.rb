@@ -11,8 +11,9 @@ class Agent < ActiveRecord::Base
 
   def clear_phone_number phone_number
     return nil unless phone_number
-    phone_number = phone_number.to_s
-    local_number = phone_number.gsub(/\s/, '').match(/\d\d(\d{8,8})/)[1]
+    matches = phone_number.to_s.gsub(/\s/, '').match(/\d\d(\d{8,8})/)
+    return phone_number if !mathes || matches.count == 0
+    local_number = matches.first
     %w(or fax).each do |search_string|
       local_number = "#{search_string} #{local_number}" if phone_number.include? search_string
     end

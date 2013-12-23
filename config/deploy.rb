@@ -100,3 +100,13 @@ task :get_app_log do
   end
 end
 
+desc 'Generate CSV'
+task :generate_csv do
+  on roles(:app) do
+    within release_path do
+      execute :rake, 'generate_csv'
+    end
+  end
+end
+
+
