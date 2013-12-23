@@ -40,7 +40,6 @@ server {
   error_page 503 @503;
 
   location = /agents.csv {
-    internal;
     add_header Content-disposition "attachment; filename=agents.xls";
     add_header Content-Type "application/vnd.ms-excel";
   }

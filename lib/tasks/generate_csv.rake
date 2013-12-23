@@ -12,7 +12,7 @@ task :generate_csv => :environment do
     Agent.first(500).each do |agent|
       csv << agent.to_csv_row
     end
-    Agent.find_each(:start => 3000, :batch_size => 500) do |agent|
+    Agent.order(:id).limit(500).offset(3000).each do |agent|
       csv << agent.to_csv_row
     end
 
