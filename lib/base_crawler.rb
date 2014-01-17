@@ -52,7 +52,7 @@ class BaseCrawler
       begin
         Agent.create(agent_attributes)
       rescue
-        Rails.logger agent_attributes
+        Rails.logger.error agent_attributes
       end
 
     else
@@ -85,6 +85,7 @@ class BaseCrawler
   end
 
   def it_is_a_last_page(links)
+    Rails.logger.info "#{links.count} #{links_per_page_count}"
     links.count != links_per_page_count
   end
 

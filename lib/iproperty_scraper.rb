@@ -7,7 +7,7 @@ class IpropertyScraper
     license_num.gsub!('Handphone', '')
     #"mailto:">17mash11@gmail.com</a>
     #email = td_text[/(?<=Email\s:\s)[^\s*)/]
-    email = td_text[/(?<=\"mailto\:\"\>).*(?=\<\/a)/]
+    email = td_text[/(?<=\"mailto\:\"\>).*?(?=\<\/a)/]
     email = nil if email == 'sgenquiries@iproperty.com'
     onclick_handler = page.at('span a.tooltip').attributes['onclick'].try(:value)
     phone = onclick_handler[/\d{10}/]
