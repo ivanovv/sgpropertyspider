@@ -1,4 +1,4 @@
-class AgentScraper
+class PropertyguruScraper
 
   def self.scrap(page)
     new.scrap(page)
@@ -18,7 +18,6 @@ class AgentScraper
     end
     agent_desc = page.at('#agent_container #agent_description').text
     emails = agent_desc.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).join(' ')
-    site_id = page.search('a').map { |a| a.attributes['href'].try(:value) }.grep(/openLoginDialog/).first.match(/\/agent\/([^']*)/)[1]
 
     {
         :name => name,
@@ -28,7 +27,6 @@ class AgentScraper
         :position => position,
         :cea_license_number => license_num,
         :cea_reg_number => reg_num,
-        :site_id => site_id,
         :email => emails.empty? ? nil : emails
     }
   end

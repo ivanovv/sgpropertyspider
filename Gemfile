@@ -27,6 +27,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv', '~> 2.0'
   gem 'capistrano-rvm', '~> 0.1.0'
+  gem 'pry'
 end
 
 

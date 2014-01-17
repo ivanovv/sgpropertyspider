@@ -1,19 +1,13 @@
-require_dependency 'list_crawler'
+require_dependency 'crawler_factory'
 class Spider < ActiveRecord::Base
   def crawl
     return unless enabled?
-    crawler = ListCrawler.new
+    crawler = CrawlerFactory.create_crawler_for(self.agent_list_url, self.id)
     begin
       logger.info "Start parsing letter #{letter} page number #{number}"
       next_letter, next_number = crawler.parse_page(letter, number)
 
-      if next_letter != self.letter
-        begin
-          Notificator.next_letter(next_letter).deliver
-        rescue => e
-          logger.error e.message
-        end
-      end
+      send_next_letter_notification(next_letter)
 
       self.letter = next_letter
       self.number = next_number
@@ -38,4 +32,15 @@ class Spider < ActiveRecord::Base
       raise e
     end
   end
+
+  def send_next_letter_notification (next_letter)
+    if next_letter != self.letter
+      begin
+        Notificator.next_letter(next_letter).deliver
+      rescue => e
+        logger.error e.message
+      end
+    end
+  end
+
 end

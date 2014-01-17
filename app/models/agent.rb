@@ -1,10 +1,18 @@
 class Agent < ActiveRecord::Base
 
+  def save_if_changed(attributes)
+    self.assign_attributes(attributes)
+    if changed?
+      save
+      return true
+    end
+    false
+  end
 
   def self.csv_header
     CSV::Row.new(
-        [:name, :company, :position, :phone, :fax, :email, :cea_lic],
-        ['Name', 'Company', 'Position', 'Phone', 'Fax', 'Email', 'License'],
+        [:name, :company, :position, :phone, :fax, :email, :cea_reg],
+        ['Name', 'Company', 'Position', 'Phone', 'Fax', 'Email', 'CEA Registration Number'],
         true
     )
   end

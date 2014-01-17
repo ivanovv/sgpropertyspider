@@ -1,9 +1,7 @@
-desc 'Parse next agent   page'
+desc 'Parse next agent page'
 task :crawl => :environment do
-  spider = Spider.first
-  unless spider
-    spider = Spider.new(:letter => 'A', :number => 1, :enabled => true)
-    spider.save
+  Spider.all.each do |spider|
+    puts "#{spider.id} #{spider.agent_list_url} #{spider.letter} #{spider.number}"
+    spider.crawl
   end
-  spider.crawl
 end
