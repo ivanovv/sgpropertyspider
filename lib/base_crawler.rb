@@ -85,7 +85,7 @@ class BaseCrawler
 
   def strip_string_fields(hash)
     hash.each do |k,v|
-      hash[k] = v.strip if v && v.is_a?(String)
+      hash[k] = v.strip if (v && v.is_a?(String))
     end
 
     if hash[:cea_reg_number]
