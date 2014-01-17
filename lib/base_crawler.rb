@@ -49,7 +49,12 @@ class BaseCrawler
     if !agent
       agent_attributes[:spider_id] = @spider_id
       agent_attributes[:site_id] = site_id
-      Agent.create(agent_attributes)
+      begin
+        Agent.create(agent_attributes)
+      rescue
+        Rails.logger agent_attributes
+      end
+
     else
       agent.save_if_changed(agent_attributes)
     end
