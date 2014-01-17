@@ -87,7 +87,11 @@ class BaseCrawler
     hash.each do |k,v|
       hash[k] = v.strip if v && v.is_a?(String)
     end
-    hash[:cea_reg_number] = hash[:cea_reg_number].strip.upcase
+
+    if hash[:cea_reg_number]
+      hash[:cea_reg_number] = hash[:cea_reg_number].strip.upcase
+    end
+
     hash
   end
 end
