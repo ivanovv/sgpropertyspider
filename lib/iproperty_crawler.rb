@@ -21,7 +21,7 @@ class IpropertyCrawler < BaseCrawler
   end
 
   def links_per_page_count
-    10
+    100
   end
 
   def get_agent_page(link)
