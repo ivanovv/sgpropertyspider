@@ -76,7 +76,7 @@ class BaseCrawler
   end
 
   def links_per_page_count
-    10
+    50
   end
 
   def it_is_a_last_page(links)

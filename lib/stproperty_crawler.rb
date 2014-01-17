@@ -13,8 +13,4 @@ class StpropertyCrawler < BaseCrawler
     page.search('.ca-sr-item .ca-sr-item-info h4 a')
   end
 
-  def links_per_page_count
-    50
-  end
-
 end
