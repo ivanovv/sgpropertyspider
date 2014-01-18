@@ -87,7 +87,7 @@ class BaseCrawler
 
   def it_is_a_last_page(links)
     Rails.logger.info "#{links.count} #{links_per_page_count}"
-    links.count != links_per_page_count
+    (links.count != links_per_page_count) || links.count == 0
   end
 
   def strip_string_fields(hash)
