@@ -20,7 +20,7 @@ class Spider < ActiveRecord::Base
       logger.info next_message
       save
     rescue => e
-      error_message ="Spider # #{id}. Got an error while parsing letter #{letter} page number #{number}\nThe error is #{e.message}\nStack: #{e.backtrace.join("\n")}"
+      error_message = "Spider # #{id}. Got an error while parsing letter #{letter} page number #{number}\nThe error is #{e.message}\nStack: #{e.backtrace.join("\n")}"
       logger.error error_message
 
       begin

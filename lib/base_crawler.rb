@@ -44,6 +44,7 @@ class BaseCrawler
     site_id = get_site_id(link_href)
     agent_page = get_agent_page(link)
     agent_attributes = ScraperFactory.create_scraper_for(link_href).scrap(agent_page)
+    return unless agent_attributes
     strip_string_fields(agent_attributes)
     agent = Agent.find_by_site_id(site_id)
     if !agent
