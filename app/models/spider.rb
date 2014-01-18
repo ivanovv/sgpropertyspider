@@ -7,7 +7,7 @@ class Spider < ActiveRecord::Base
 
     attempt = CrawledPage.where(:spider => self, :letter => letter, :number => number).first
     if attempt
-      attempt.update(:started_at = DateTime.now)
+      attempt.update(:started_at => DateTime.now)
     else
       attempt = CrawledPage.create({
                                        :spider => self,
