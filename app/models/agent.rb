@@ -1,5 +1,7 @@
 class Agent < ActiveRecord::Base
 
+  belongs_to :spider
+
   def save_if_changed(attributes)
     self.assign_attributes(attributes)
     if changed?
