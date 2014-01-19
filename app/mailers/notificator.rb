@@ -6,7 +6,8 @@ class Notificator < ActionMailer::Base
     mail
   end
 
-  def next_letter(letter)
+  def next_letter(spider_id, letter)
+    @spider_id = spider_id
     @letter = letter
     mail
   end

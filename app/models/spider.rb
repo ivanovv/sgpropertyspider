@@ -54,7 +54,7 @@ class Spider < ActiveRecord::Base
   def send_next_letter_notification (next_letter)
     if next_letter != self.letter
       begin
-        Notificator.next_letter(next_letter).deliver
+        Notificator.next_letter(self.id, next_letter).deliver
       rescue => e
         logger.error e.message
       end
