@@ -7,6 +7,7 @@ class Spider < ActiveRecord::Base
 
     attempt = CrawledPage.find_or_create_by!(:spider => self, :letter => letter, :number => number)
     attempt.update(:started_at => DateTime.now)
+    start_time = Time.now
 
     crawler = CrawlerFactory.create_crawler_for(self.agent_list_url, self.id)
     begin
@@ -26,7 +27,7 @@ class Spider < ActiveRecord::Base
       logger.info next_message
       save
       attempt.update(:finished_at => DateTime.now,
-                     :duration => DateTime.now - attempt.started_at)
+                     :duration => (Time.now - start_time).to_i)
     rescue => e
       error_message = "Spider # #{id}. Got an error while parsing letter #{letter} page number #{number}\nThe error is #{e.message}\nStack: #{e.backtrace.join("\n")}"
       logger.error error_message
