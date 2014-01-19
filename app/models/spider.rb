@@ -5,17 +5,8 @@ class Spider < ActiveRecord::Base
   def crawl
     return unless enabled?
 
-    attempt = CrawledPage.where(:spider => self, :letter => letter, :number => number).first
-    if attempt
-      attempt.update(:started_at => DateTime.now)
-    else
-      attempt = CrawledPage.create({
-                                       :spider => self,
-                                       :started_at => DateTime.now,
-                                       :letter => letter,
-                                       :number => number
-                                   })
-    end
+    attempt = CrawledPage.find_or_create_by!(:spider => self, :letter => letter, :number => number)
+    attempt.update(:started_at => DateTime.now)
 
     crawler = CrawlerFactory.create_crawler_for(self.agent_list_url, self.id)
     begin
@@ -34,6 +25,8 @@ class Spider < ActiveRecord::Base
       end
       logger.info next_message
       save
+      attempt.update(:finished_at => DateTime.now,
+                     :duration => DateTime.now - attempt.started_at)
     rescue => e
       error_message = "Spider # #{id}. Got an error while parsing letter #{letter} page number #{number}\nThe error is #{e.message}\nStack: #{e.backtrace.join("\n")}"
       logger.error error_message
@@ -43,12 +36,8 @@ class Spider < ActiveRecord::Base
       rescue => e2
         logger.error e2.message
       end
-
       raise e
     end
-    attempt.update(:finished_at => DateTime.now,
-                   :duration => DateTime.now - attempt.started_at)
-
   end
 
   def send_next_letter_notification (next_letter)
