@@ -12,7 +12,7 @@ task :generate_csv => :environment do
     csv << Agent.csv_header
 
     Agent.select('cea_reg_number, max(id) as id').group(:cea_reg_number) do |grouping|
-      next unless grouping[:cea_reg_number]
+      next unless grouping[:cea_reg_number] =~ /[A-Z]\s?\d{5,7}\s?[A-Z]?/)
       agent = Agent.find grouping[:id]
       csv << agent.to_csv_row
     end
