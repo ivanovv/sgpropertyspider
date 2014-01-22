@@ -11,7 +11,8 @@ task :generate_csv => :environment do
   CSV.open(file_name, 'wb') do |csv|
     csv << Agent.csv_header
 
-    Agent.group(:cea_reg_number).order(:name) do |agent|
+    Agent.select('cea_reg_number, max(id) as id').group(:cea_reg_number) do |cea_reg_number|
+      agent = Agent.find cea_reg_number[:id]
       csv << agent.to_csv_row
     end
   end
