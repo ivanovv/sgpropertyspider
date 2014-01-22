@@ -55,7 +55,6 @@ class BaseCrawler
       rescue
         Rails.logger.error agent_attributes
       end
-
     else
       agent.save_if_changed(agent_attributes)
     end
@@ -64,7 +63,7 @@ class BaseCrawler
   def process_link(link, page)
     agent_link = Mechanize::Page::Link.new(link, @mechanize, page)
     scrap_agent agent_link
-    sleep @rnd.rand 3..10
+    sleep @rnd.rand 3..8
   end
 
   def parse_page(letter, number)

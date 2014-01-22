@@ -13,8 +13,8 @@ class Agent < ActiveRecord::Base
 
   def self.csv_header
     CSV::Row.new(
-        [:name, :company, :position, :phone, :fax, :email, :cea_reg],
-        ['Name', 'Company', 'Position', 'Phone', 'Fax', 'Email', 'CEA Registration Number'],
+        [:name, :company, :position, :phone, :fax, :email, :cea_reg, :cea_lic],
+        ['Name', 'Company', 'Position', 'Phone', 'Fax', 'Email', 'CEA Registration Number', 'CEA License'],
         true
     )
   end
@@ -44,7 +44,7 @@ class Agent < ActiveRecord::Base
 
     CSV::Row.new(
         [:name, :company, :position, :phone, :fax, :email, :cea_lic],
-        [name, company, position, processed_numbers[0] || phone, processed_numbers[1] || fax, email, "#{cea_license_number}/#{cea_reg_number}"]
+        [name, company, position, processed_numbers[0] || phone, processed_numbers[1] || fax, email, cea_reg_number, cea_license_number ]
     )
   end
 
