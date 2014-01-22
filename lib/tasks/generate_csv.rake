@@ -18,7 +18,7 @@ task :generate_csv => :environment do
     end
   end
   archive_file_name = File.join(Rails.root, 'public', 'all.tar.gz')
-  system "tar tar -cvzf #{archive_file_name} #{file_name}"
+  system "tar -cvzf #{archive_file_name} #{file_name}"
 
   file_name = File.join(Rails.root, 'public', 'new_agents.csv')
   CSV.open(file_name, 'wb') do |csv|
@@ -31,5 +31,5 @@ task :generate_csv => :environment do
     end
   end
   archive_file_name = File.join(Rails.root, 'public', 'new.tar.gz')
-  system "tar tar -cvzf #{archive_file_name} #{file_name}"
+  system "tar -cvzf #{archive_file_name} #{file_name}"
 end
