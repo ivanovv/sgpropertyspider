@@ -6,7 +6,8 @@ class IpropertyScraper
     return nil unless reg_num
     license_num = td_text.match(/(?<=Agency Licence Number :\s)([^\s]*)\s?\<br\>/)[1] rescue nil
     license_num.gsub!('Handphone', '')
-    email = td_text[/(?<=\"mailto\:\"\>).*?(?=\<\/a)/]
+    email_match = td_text.match(/\"mailto\:\"[^\>]*?\>(.*?)(?=\<\/a)/)
+    email = email_match[1].strip if email_match
     email = nil if email == 'sgenquiries@iproperty.com'
 
     phone = nil
