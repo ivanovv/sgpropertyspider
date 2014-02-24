@@ -1,5 +1,3 @@
-set :rbenv_type, :system
-set :rbenv_ruby, '2.0.0-p247'
 
 fetch(:default_env).merge!(rails_env: :production)
 

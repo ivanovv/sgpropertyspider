@@ -1,2 +1,3 @@
 set :stage, :production
-server '37.139.29.122', user: 'deploy', roles: %w{web app db}
+set :chruby_ruby, '2.1.0'
+server '128.199.236.86', user: 'deploy', roles: %w{web app db}
