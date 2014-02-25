@@ -107,4 +107,15 @@ task :generate_csv do
   end
 end
 
+desc 'Reset spiders'
+task :reset_spiders do
+  on roles(:app) do
+    within release_path do
+      execute :rake, 'reset_spiders'
+    end
+  end
+end
+
+
+
 

@@ -1,7 +1,7 @@
 require 'capistrano/setup'
 require 'capistrano/deploy'
 require 'whenever/capistrano'
-require 'capistrano/rbenv'
+#require 'capistrano/rbenv'
 require 'capistrano/chruby'
 require 'capistrano/bundler'
 require 'capistrano/rails/assets'
