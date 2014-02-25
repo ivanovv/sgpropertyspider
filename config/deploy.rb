@@ -18,6 +18,7 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 set :unicorn_conf, "config/unicorn.rb"
 set :unicorn_pid, "#{release_path}/tmp/pids/unicorn.pid"
 set :unicorn_start_cmd, "(cd #{release_path}; bundle exec unicorn_rails -Dc #{fetch(:unicorn_conf)} -E production)"
+set :whenever_command, "chruby-exec 2.1 -- bundle exec"
 
 namespace :deploy do
 
