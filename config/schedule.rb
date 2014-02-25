@@ -1,4 +1,5 @@
 set :output, '/home/deploy/apps/sgpropertyspider/shared/log/cron.log'
+set :bundle_command, 'chruby-exec 2.1 -- bundle exec'
 
 env :SHELL, '/bin/bash'
 env :HOME, '/home/deploy'
