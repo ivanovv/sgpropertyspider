@@ -24,7 +24,7 @@ task :generate_csv => :environment do
   CSV.open(file_name, 'wb') do |csv|
     csv << Agent.csv_header
 
-    Agent.select('cea_reg_number, max(id) as id').where("created_at > '2014-01-01'").having('max(id) > 12464').group(:cea_reg_number).each do |grouping|
+    Agent.select('cea_reg_number, max(id) as id').where("created_at > '2014-02-01'").having('max(id) > 37807').group(:cea_reg_number).each do |grouping|
       next unless grouping[:cea_reg_number] =~ /[A-Z]\s?\d{5,7}\s?[A-Z]?/
       agent = Agent.find grouping[:id]
       csv << agent.to_csv_row
