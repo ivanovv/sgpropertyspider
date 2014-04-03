@@ -14,7 +14,8 @@ task :merge => :environment do
       puts new_agent.inspect
 
       puts 'Merge New in to Old?'
-      answer = readline
+      STDOUT.flush
+      answer = gets.chomp
       if answer.downcase == 'y'
         new_agent.attributes.each_pair {|k,v| old.agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
         old_agent.save!
