@@ -4,7 +4,7 @@ class Agent < ActiveRecord::Base
 
 
   def extract_site_id
-    site_url[/\d*/]
+    site_url[/\d+/]
   end
 
   def save_if_changed(attributes)
