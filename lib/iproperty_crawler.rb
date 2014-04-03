@@ -10,7 +10,7 @@ class IpropertyCrawler < BaseCrawler
     "http://#{uri.host}#{link.at_css('a').attributes['href'].value}"
   end
 
-  def get_site_id(link_href)
+  def get_site_url(link_href)
     link_href.match(/\/realestateagent\/(.*)/)[1]
   end
 

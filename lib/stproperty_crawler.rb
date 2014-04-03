@@ -5,7 +5,7 @@ class StpropertyCrawler < BaseCrawler
     "#{@agent_list_url}first-name-#{letter.downcase}/page#{number}/size-#{links_per_page_count}/sort-firstname-asc"
   end
 
-  def get_site_id link_href
+  def get_site_url link_href
     link_href.match(/\/property-agent\/(.*)/)[1]
   end
 

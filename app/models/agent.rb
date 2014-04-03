@@ -2,6 +2,11 @@ class Agent < ActiveRecord::Base
 
   belongs_to :spider
 
+
+  def extract_site_id
+    site_url[/\d*/]
+  end
+
   def save_if_changed(attributes)
     self.assign_attributes(attributes)
     if changed?
@@ -44,7 +49,7 @@ class Agent < ActiveRecord::Base
 
     CSV::Row.new(
         [:name, :company, :position, :phone, :fax, :email, :cea_lic],
-        [name, company, position, processed_numbers[0] || phone, processed_numbers[1] || fax, email, cea_reg_number, cea_license_number ]
+        [name, company, position, processed_numbers[0] || phone, processed_numbers[1] || fax, email, cea_reg_number, cea_license_number]
     )
   end
 

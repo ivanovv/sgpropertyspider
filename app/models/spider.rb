@@ -4,9 +4,7 @@ class Spider < ActiveRecord::Base
 
   def crawl
     return unless enabled?
-
-    attempt = CrawledPage.find_or_create_by!(:spider => self, :letter => letter, :number => number)
-    attempt.update(:started_at => DateTime.now)
+    attempt = CrawledPage.find_or_create_attempt(self)
     start_time = Time.now
 
     crawler = CrawlerFactory.create_crawler_for(self.agent_list_url, self.id)
