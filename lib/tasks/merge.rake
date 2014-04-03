@@ -14,7 +14,7 @@ task :merge => :environment do
       new_agent = Agent.find d.max_id
       new_agent.attributes.each_pair do |k,v|
         unless %w(updated_at created_at).include?(k)
-          puts "#{k}:\t#{old.agent.attributes[k]}\t#{v}" if old.agent.attributes[k] != v
+          puts "#{k}:\t#{old_agent.attributes[k]}\t#{v}" if old.agent.attributes[k] != v
         end
       end
       answer = ask 'Merge New into Old?'
