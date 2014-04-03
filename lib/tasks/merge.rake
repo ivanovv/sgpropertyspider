@@ -1,5 +1,10 @@
 desc "Merge agents duplicates"
 task :merge => :environment do
+  def ask message
+    print message
+    STDIN.gets.chomp
+  end
+
   Spider.all.each do |spider|
     duplicates = Agent.where(:spider_id => spider.id).group(:cea_reg_number).
         having('count(*) = 2').
@@ -12,10 +17,7 @@ task :merge => :environment do
       new_agent = Agent.find d.max_id
       puts "New agent: "
       puts new_agent.inspect
-
-      puts 'Merge New in to Old?'
-      STDOUT.flush
-      answer = gets.chomp
+      answer = ask 'Merge New in to Old?'
       if answer.downcase == 'y'
         new_agent.attributes.each_pair {|k,v| old.agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
         old_agent.save!
