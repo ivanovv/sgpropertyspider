@@ -12,6 +12,7 @@ task :merge => :environment do
     duplicates.each do |d|
       old_agent = Agent.find d.min_id
       new_agent = Agent.find d.max_id
+      next if old_agent.site_id != new_agent.site_id
       new_agent.attributes.each_pair do |k,v|
         unless %w(updated_at created_at).include?(k)
           puts "#{k}:\t#{old_agent.attributes[k]}\t#{v}" if old_agent.attributes[k] != v
