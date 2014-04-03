@@ -10,6 +10,7 @@ task :merge => :environment do
         having('count(*) = 2').
         select('max(id) as max_id', 'min(id) as min_id').all
     duplicates.each do |d|
+      puts
       old_agent = Agent.find d.min_id
       new_agent = Agent.find d.max_id
       next if old_agent.site_id != new_agent.site_id
@@ -18,12 +19,9 @@ task :merge => :environment do
           puts "#{k}:\t#{old_agent.attributes[k]}\t#{v}" if old_agent.attributes[k] != v
         end
       end
-      answer = ask 'Merge New into Old?'
-      if answer.downcase == 'y'
-        new_agent.attributes.each_pair {|k,v| old_agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
-        old_agent.save!
-        new_agent.destroy!
-      end
+      new_agent.attributes.each_pair {|k,v| old_agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
+      old_agent.save!
+      new_agent.destroy!
     end
   end
 end
