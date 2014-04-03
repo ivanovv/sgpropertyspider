@@ -11,13 +11,13 @@ task :merge => :environment do
         select('max(id) as max_id', 'min(id) as min_id').all
     duplicates.each do |d|
       old_agent = Agent.find d.min_id
-      puts "Old agent:"
-      puts old_agent.inspect
-
       new_agent = Agent.find d.max_id
-      puts "New agent: "
-      puts new_agent.inspect
-      answer = ask 'Merge New in to Old?'
+      new_agent.attributes.each_pair do |k,v|
+        unless %w(updated_at created_at).include?(k)
+          puts "#{k}:\t#{old.agent.attributes[k]}\t#{v}" if old.agent.attributes[k] != v
+        end
+      end
+      answer = ask 'Merge New into Old?'
       if answer.downcase == 'y'
         new_agent.attributes.each_pair {|k,v| old.agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
         old_agent.save!
