@@ -19,7 +19,7 @@ task :merge => :environment do
       end
       answer = ask 'Merge New into Old?'
       if answer.downcase == 'y'
-        new_agent.attributes.each_pair {|k,v| old.agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
+        new_agent.attributes.each_pair {|k,v| old_agent.attributes[k] = v unless v.nil? || %w(id updated_at created_at).include?(k)}
         old_agent.save!
         new_agent.destroy!
       end
