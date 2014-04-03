@@ -1,7 +1,7 @@
 class CrawledPage < ActiveRecord::Base
   belongs_to :spider
 
-  def sef.find_or_create_attempt(spider)
+  def self.find_or_create_attempt(spider)
     month = Date::MONTHNAMES[Date.today.month]
     attempt = CrawledPage.find_or_create_by!({
                                                  :spider => spider,
