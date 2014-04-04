@@ -5,7 +5,9 @@ task :merge => :environment do
     STDIN.gets.chomp
   end
 
-  Spider.all.each do |spider|
+  Spider.all.reverse.each do |spider|
+    STDIN.gets
+
     duplicates = Agent.where(:spider_id => spider.id).group(:cea_reg_number).
         having('count(*) = 2').
         select('max(id) as max_id', 'min(id) as min_id').all
@@ -25,3 +27,9 @@ task :merge => :environment do
     end
   end
 end
+
+id:	30250	31381
+site_url:	murugan-%28-victor-%29-v/tab-details/user/329128	murugan%28victor%29-v/tab-details/user/285231
+name:	MURUGAN ( VICTOR ) V	murugan(victor) v
+position:	Executive adviser	Executive Adviser
+Merge New into Old?y

@@ -7,7 +7,9 @@ task :generate_csv => :environment do
     agent.cea_reg_number = agent.cea_reg_number.strip.upcase if agent.cea_reg_number
   end
 
-  file_name = File.join(Rails.root, 'public', 'all_agents.csv')
+  working_dir = File.join(Rails.root, 'public', 'system')
+
+  file_name = File.join(working_dir, 'all_agents.csv')
   CSV.open(file_name, 'wb') do |csv|
     csv << Agent.csv_header
 
@@ -17,10 +19,10 @@ task :generate_csv => :environment do
       csv << agent.to_csv_row
     end
   end
-  archive_file_name = File.join(Rails.root, 'public', 'all.tar.gz')
-  system "tar -cvzf #{archive_file_name} #{file_name}"
 
-  file_name = File.join(Rails.root, 'public', 'new_agents.csv')
+  system "tar cz -C #{working_dir} -f all.tar.gz all_agents.csv"
+
+  file_name = File.join(working_dir, 'new_agents.csv')
   CSV.open(file_name, 'wb') do |csv|
     csv << Agent.csv_header
 
@@ -30,6 +32,5 @@ task :generate_csv => :environment do
       csv << agent.to_csv_row
     end
   end
-  archive_file_name = File.join(Rails.root, 'public', 'new.tar.gz')
-  system "tar -cvzf #{archive_file_name} #{file_name}"
+  system "tar cz -C #{working_dir} -f new.tar.gz new_agents.csv"
 end
