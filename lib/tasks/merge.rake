@@ -28,8 +28,8 @@ task :merge => :environment do
   end
 end
 
-id:	30250	31381
-site_url:	murugan-%28-victor-%29-v/tab-details/user/329128	murugan%28victor%29-v/tab-details/user/285231
-name:	MURUGAN ( VICTOR ) V	murugan(victor) v
-position:	Executive adviser	Executive Adviser
-Merge New into Old?y
+#id:	30250	31381
+#site_url:	murugan-%28-victor-%29-v/tab-details/user/329128	murugan%28victor%29-v/tab-details/user/285231
+#name:	MURUGAN ( VICTOR ) V	murugan(victor) v
+#position:	Executive adviser	Executive Adviser
+#Merge New into Old?y
