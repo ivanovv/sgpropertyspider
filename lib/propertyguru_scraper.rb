@@ -1,7 +1,12 @@
 class PropertyguruScraper
 
   def self.scrap(page)
-    new.scrap(page)
+    begin
+      new.scrap(page)
+    rescue => e
+      File.open('error.html','w') {|f| page.write_to f}
+      raise e
+    end
   end
 
   def scrap(page)
