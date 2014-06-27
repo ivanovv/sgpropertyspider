@@ -47,7 +47,7 @@ class BaseCrawler
     begin
       agent_page = get_agent_page(link)
       agent_attributes = ScraperFactory.create_scraper_for(link_href).scrap(agent_page)
-    rescue 999
+    rescue
       agent_attributes = nil
     end
     return unless agent_attributes
