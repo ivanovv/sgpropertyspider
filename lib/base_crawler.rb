@@ -28,6 +28,7 @@ class BaseCrawler
 
   def get_page(letter, number)
     url = generate_url_for letter, number
+    Rails.logger.info "url: #{url}"
     @mechanize.get url
   end
 
@@ -64,6 +65,7 @@ class BaseCrawler
 
   def process_link(link, page)
     agent_link = Mechanize::Page::Link.new(link, @mechanize, page)
+    Rails.logger.info "agent_link: #{agent_link.inspect}"
     scrap_agent agent_link
     sleep @rnd.rand 3..8
   end
