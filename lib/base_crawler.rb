@@ -44,8 +44,12 @@ class BaseCrawler
     link_href = get_agent_link_href(link)
     site_url = get_site_url(link_href)
     site_id = site_url[/\d+/]
-    agent_page = get_agent_page(link)
-    agent_attributes = ScraperFactory.create_scraper_for(link_href).scrap(agent_page)
+    begin
+      agent_page = get_agent_page(link)
+      agent_attributes = ScraperFactory.create_scraper_for(link_href).scrap(agent_page)
+    rescue 999
+      agent_attributes = nil
+    end
     return unless agent_attributes
     agent_attributes[:site_url] = site_url
     strip_string_fields(agent_attributes)
