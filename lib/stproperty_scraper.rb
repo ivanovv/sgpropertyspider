@@ -10,7 +10,8 @@ class StpropertyScraper
   end
 
   def scrap(page)
-    agent_summary = page.at('#contactme').attributes['title'].try(:value)
+    agent_summary = page.at('#contactme').attributes['title'].try(:value) rescue nil
+    return nil unless agent_summary
     name = agent_summary[/(?<=Contact\s)[^,]*/]
     name = name[/.*(?= from)/] if name.include?(' from ')
     company = agent_summary[/(?<=\sfrom\s)[^,]*(?=,)/] rescue nil
