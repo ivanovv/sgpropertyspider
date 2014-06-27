@@ -29,5 +29,8 @@ class StpropertyScraper
         :cea_reg_number => reg_num,
         :email => nil
     }
+  rescue => e
+    File.open('error.html','w') {|f| page.write_to f}
+    raise e
   end
 end
