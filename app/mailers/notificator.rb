@@ -1,5 +1,5 @@
 class Notificator < ActionMailer::Base
-  default from: "crawler@sgproperty.com", to: "vic.ivanoff@gmail.com"
+  default from: "crawler@sgp", to: "vic.ivanoff@gmail.com"
 
   def error(message)
     @error = message
